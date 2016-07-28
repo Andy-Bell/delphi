@@ -14,12 +14,24 @@ defmodule Delphi.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :rethinkdb]]
+    [applications: [:logger, :scrape, :httpoison, :floki, :rethinkdb]]
   end
 
-
-  defp deps do [  
-   {:rethinkdb, github: "hamiltop/rethinkdb-elixir"}
-  ]
+  # Dependencies can be Hex packages:
+  #
+  #   {:mydep, "~> 0.3.0"}
+  #
+  # Or git/path repositories:
+  #
+  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #
+  # Type "mix help deps" for more examples and options
+  defp deps do
+    [
+      {:scrape, "~> 1.2"},
+      {:httpoison, "~>0.9.0"},
+      {:floki, "~> 0.9.0"},
+      {:rethinkdb, github: "hamiltop/rethinkdb-elixir"}
+    ]
   end
 end
