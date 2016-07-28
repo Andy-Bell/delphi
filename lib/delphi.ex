@@ -9,7 +9,6 @@ defmodule Delphi do
   end
 
   def database_insert(conn, params) do
-
     q = Query.table("test")
     |> Query.insert(params)
     |> Database.run(conn)
@@ -17,7 +16,6 @@ defmodule Delphi do
   end
 
   def database_view(conn) do
-
     q = Query.table("test")
     |> Database.run(conn)
 
