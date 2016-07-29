@@ -10,11 +10,11 @@ defmodule Delphi.Mixfile do
      deps: deps()]
   end
 
-  # Configuration for the OTP application 
+  # Configuration for the OTP application
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :postgrex, :ecto],
+    [applications: [:logger, :postgrex, :ecto, :floki, :httpoison, :scrape],
      mod: {Delphi, []}]
   end
 
@@ -30,7 +30,10 @@ defmodule Delphi.Mixfile do
   defp deps do
     [
       {:postgrex, "~> 0.9.1"},
-      {:ecto, "~>1.0.0"}
+      {:ecto, "~>1.0.0"},
+      {:scrape, "~> 1.2"},
+      {:httpoison, "~>0.9.0"},
+      {:floki, "~> 0.9.0"}
     ]
   end
 end

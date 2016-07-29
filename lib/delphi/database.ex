@@ -5,7 +5,6 @@ defmodule Delphi.Database do
     field :title
     field :description
     field :fulltext
-    field :tags
     field :url
 
     timestamps
