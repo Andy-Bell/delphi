@@ -20,17 +20,20 @@ defmodule UrlScraper do
 
   defp filter_urls(data, url) do
     Enum.uniq(data)
-    |> Enum.filter(&legit_url(&1))
-    |> Enum.partition(&regex(&1))
-    |> IO.inspect
+    |> Enum.filter(&full_url(&1))
+    |> Enum.partition(&partial_url(&1))
+    |> create_urls(url)
   end
 
-  defp legit_url(data) do
+  defp full_url(data) do
     Regex.match?(~r/\//, data)
   end
 
-  defp regex(data) do
+  defp partial_url(data) do
     Regex.match?(~r/https?:\/\/.+/, data)
   end
 
+  defp create_urls({a, b}, url) do
+    Enum.map(b, fn(b) -> url <> b end) ++ Enum.map(a, fn(a) -> a end)
+  end
 end
