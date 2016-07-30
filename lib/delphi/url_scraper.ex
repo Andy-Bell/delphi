@@ -24,7 +24,6 @@ defmodule UrlScraper do
   end
 
   defp legit_url(data) do
-    # Regex.match?(~r/\//, data)
     Regex.match?(~r/https?:\/\/.+/, data)
   end
 
