@@ -14,7 +14,8 @@ defmodule Delphi.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :scrape, :httpoison, :floki, :rethinkdb]]
+    [applications: [:logger, :postgrex, :ecto, :floki, :httpoison, :scrape],
+     mod: {Delphi, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -28,10 +29,11 @@ defmodule Delphi.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:postgrex, "~> 0.9.1"},
+      {:ecto, "~>1.0.0"},
       {:scrape, "~> 1.2"},
       {:httpoison, "~>0.9.0"},
-      {:floki, "~> 0.9.0"},
-      {:rethinkdb, github: "hamiltop/rethinkdb-elixir"}
+      {:floki, "~> 0.9.0"}
     ]
   end
 end
