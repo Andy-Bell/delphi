@@ -1,4 +1,4 @@
-defmodule Delphi.Database do
+defmodule Delphi.DataWriter do
   use Ecto.Model
 
   schema "test" do
@@ -9,4 +9,5 @@ defmodule Delphi.Database do
 
     timestamps
   end
+
 end

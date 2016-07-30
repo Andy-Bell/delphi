@@ -36,4 +36,5 @@ defmodule UrlScraper do
   defp create_urls({a, b}, url) do
     Enum.map(b, fn(b) -> url <> b end) ++ Enum.map(a, fn(a) -> a end)
   end
+
 end

@@ -8,7 +8,7 @@ defmodule ScraperController do
   end
 
   defp criteria(data) do
-    %Delphi.Database{title: data.title,
+    %Delphi.DataWriter{title: data.title,
     description: data.description,
     fulltext: data.fulltext,
     url: data.url}
