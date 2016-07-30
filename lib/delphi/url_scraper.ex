@@ -21,11 +21,16 @@ defmodule UrlScraper do
   defp filter_urls(data, url) do
     Enum.uniq(data)
     |> Enum.filter(&legit_url(&1))
+    |> Enum.partition(&regex(&1))
+    |> IO.inspect
   end
 
   defp legit_url(data) do
+    Regex.match?(~r/\//, data)
+  end
+
+  defp regex(data) do
     Regex.match?(~r/https?:\/\/.+/, data)
   end
 
-  # map fn(x) if include "http" -> leave else return url ++ x end
 end
