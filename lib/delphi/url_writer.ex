@@ -5,7 +5,7 @@ defmodule UrlWriter do
 
   def write_url(url) do
     UrlScraper.search_urls(url)
-    |> Enum.uniq
+    |> Stream.uniq
     |> Enum.each( &url_list(&1) )
   end
 

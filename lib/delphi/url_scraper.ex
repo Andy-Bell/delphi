@@ -4,14 +4,14 @@ defmodule UrlScraper do
     HTTPoison.start
     (HTTPoison.get! url).body
     |> Floki.find("a")
-    |> Enum.map(&extract_url(&1))
+    |> Stream.map(&extract_url(&1))
     |> List.flatten
     |> filter_urls(url)
   end
 
   defp extract_url(tuple) do
     elem(tuple, 1)
-    |> Enum.filter(&parse_tuple(&1))
+    |> Stream.filter(&parse_tuple(&1))
     |> Enum.map(fn(y) -> elem(y,1) end)
   end
 
@@ -19,9 +19,9 @@ defmodule UrlScraper do
   defp parse_tuple({_, _}), do: false
 
   defp filter_urls(data, url) do
-    Enum.uniq(data)
-    |> Enum.filter(&partial_url(&1))
-    |> Enum.partition(&full_url(&1))
+    Stream.uniq(data)
+    |> Stream.filter(&partial_url(&1))
+    |> Stream.partition(&full_url(&1))
     |> create_urls(url)
   end
 
