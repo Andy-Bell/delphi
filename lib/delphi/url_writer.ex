@@ -1,9 +1,11 @@
 defmodule UrlWriter do
 
   import Ecto.Query
+  import Ecto.Changeset
 
   def write_url(url) do
     UrlScraper.search_urls(url)
+    |> Enum.uniq
     |> Enum.each( &url_list(&1) )
   end
 
@@ -13,7 +15,11 @@ defmodule UrlWriter do
   end
 
   defp clause_match(data1) do
-    {:ok, inserted_data} = Delphi.Repo.insert(data1)
+    changeset = Delphi.UrlWriter.changeset(data1)
+    case Delphi.Repo.insert(changeset) do
+      {:ok, _} -> IO.puts("it worked")
+      {:error, _} -> IO.puts("failed, possibly unique index...")
+    end
   end
 
 end
