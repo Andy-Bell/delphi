@@ -4,7 +4,6 @@ defmodule Delphi.DataWriter do
   schema "test" do
     field :title
     field :description
-    field :fulltext
     field :url
 
     timestamps
