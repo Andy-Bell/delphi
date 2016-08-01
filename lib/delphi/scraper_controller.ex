@@ -2,7 +2,7 @@ defmodule ScraperController do
   import Ecto.Query
 
   def scrape_page(url) do
-    Scrape.article(url)
+    Scrape.website(url)
     |> criteria
     |> clause_match
   end
@@ -10,7 +10,6 @@ defmodule ScraperController do
   defp criteria(data) do
     %Delphi.DataWriter{title: data.title,
     description: data.description,
-    fulltext: data.fulltext,
     url: data.url}
   end
 
