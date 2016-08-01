@@ -16,9 +16,3 @@ defmodule DelphiSpider do
   end
 
 end
-
-# point at url
-#  scrape url
-#  scrape data
-# scrape urls
-#  scrape data

@@ -7,6 +7,7 @@ defmodule UrlScraper do
     |> Enum.map(&extract_url(&1))
     |> List.flatten
     |> filter_urls(url)
+    |> Enum.drop_while( fn x -> x == nil end)
   end
 
   defp extract_url(tuple) do
@@ -23,6 +24,12 @@ defmodule UrlScraper do
     |> Enum.filter(&partial_url(&1))
     |> Enum.partition(&full_url(&1))
     |> create_urls(url)
+    |> Enum.map( &node_depth(&1) )
+  end
+
+  defp node_depth(data) do
+    node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
+    unless(node == nil) do List.first(node) end
   end
 
   defp partial_url(data) do
