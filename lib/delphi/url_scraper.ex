@@ -2,7 +2,7 @@ defmodule UrlScraper do
 
   def search_urls(url) do
     HTTPoison.start
-    (HTTPoison.get! url).body
+    (HTTPoison.get! url, [], hackney: [:insecure]).body
     |> Floki.find("a")
     |> Enum.map(&extract_url(&1))
     |> List.flatten
