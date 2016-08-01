@@ -17,4 +17,5 @@ defmodule ScraperController do
     {:ok, inserted_data} = Delphi.Repo.insert(data1)
   end
 
+
 end
