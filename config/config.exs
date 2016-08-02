@@ -4,10 +4,8 @@ use Mix.Config
 
 config :delphi, Delphi.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "delphi_test",
-  username: "test",
-  password: "password",
-  hostname: "localhost"
+  database: "delphi_test"
+
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

@@ -9,6 +9,8 @@ defmodule UrlScraper do
     |> filter_urls(url)
   end
 
+  # pattern match based on 4 //s
+
   defp extract_url(tuple) do
     elem(tuple, 1)
     |> Enum.filter(&parse_tuple(&1))
