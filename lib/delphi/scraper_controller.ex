@@ -16,6 +16,5 @@ defmodule ScraperController do
   defp clause_match(data1) do
     {:ok, inserted_data} = Delphi.Repo.insert(data1)
   end
-
-
+  
 end
