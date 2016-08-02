@@ -15,7 +15,7 @@ defmodule DelphiSpider do
   def fill_the_data_table do
     QueryController.search
     |> Enum.map(fn (x) -> ScraperController.scrape_page(x) end )
-    fn(x) -> IO.puts("Child exited") end
+    # fn(x) -> IO.puts("Child exited") end
   end
 
   def fill_the_url_table do
