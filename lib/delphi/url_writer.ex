@@ -8,6 +8,7 @@ defmodule UrlWriter do
     |> Enum.map( &node_depth(&1) )
     |> Enum.uniq
     |> Enum.each( &url_list(&1) )
+    url_list(url)
   end
 
   defp url_list(data) do
@@ -25,8 +26,13 @@ defmodule UrlWriter do
 
   defp node_depth(data) do
     if data do
-      node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
-      unless(node == nil) do List.first(node) end
+      if Regex.match?(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, data) do
+          Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, data, [])
+          |> List.first
+      else
+        node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
+        unless(node == nil) do List.first(node) end
+      end
     end
   end
 

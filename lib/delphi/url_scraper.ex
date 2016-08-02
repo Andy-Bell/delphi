@@ -10,7 +10,6 @@ defmodule UrlScraper do
     |> Enum.drop_while( fn x -> x == nil end)
   end
 
-  # pattern match based on 4 //s
 
   defp extract_url(tuple) do
     elem(tuple, 1)
