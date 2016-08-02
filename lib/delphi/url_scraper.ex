@@ -7,7 +7,7 @@ defmodule UrlScraper do
     |> Enum.map(&extract_url(&1))
     |> List.flatten
     |> filter_urls(url)
-    |> Enum.drop_while( fn x -> x == nil end)
+    |> Enum.filter( fn x -> x != nil end)
   end
 
 

@@ -9,6 +9,7 @@ defmodule UrlWriter do
     |> Enum.uniq
     |> Enum.each( &url_list(&1) )
     url_list(url)
+    UrlScraper.search_urls(url)
   end
 
   defp url_list(data) do
