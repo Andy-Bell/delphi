@@ -5,7 +5,8 @@ defmodule UrlWriter do
 
   def write_url(url) do
     UrlScraper.search_urls(url)
-    |> Stream.uniq
+    |> Enum.map( &node_depth(&1) )
+    |> Enum.uniq
     |> Enum.each( &url_list(&1) )
   end
 
@@ -21,5 +22,13 @@ defmodule UrlWriter do
       {:error, _} -> IO.puts("failed, possibly unique index...")
     end
   end
+
+  defp node_depth(data) do
+    if data do
+      node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
+      unless(node == nil) do List.first(node) end
+    end
+  end
+
 
 end

@@ -2,11 +2,12 @@ defmodule UrlScraper do
 
   def search_urls(url) do
     HTTPoison.start
-    (HTTPoison.get! url).body
+    (HTTPoison.get! url, [], hackney: [:insecure]).body
     |> Floki.find("a")
     |> Enum.map(&extract_url(&1))
     |> List.flatten
     |> filter_urls(url)
+    |> Enum.drop_while( fn x -> x == nil end)
   end
 
   # pattern match based on 4 //s
@@ -25,6 +26,12 @@ defmodule UrlScraper do
     |> Enum.filter(&partial_url(&1))
     |> Enum.partition(&full_url(&1))
     |> create_urls(url)
+    |> Enum.map( &node_depth(&1) )
+  end
+
+  defp node_depth(data) do
+    node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
+    unless(node == nil) do List.first(node) end
   end
 
   defp partial_url(data) do
