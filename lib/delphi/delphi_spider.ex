@@ -1,11 +1,14 @@
 defmodule DelphiSpider do
   import Ecto.Query
 
-  def delphi_spider do
-
+  def unleash_the_kraken do
+    Enum.each(fill_the_url_table,
+      spawn(fill_the_data_table)
+      )
   end
 
   def fill_the_data_table do
+
     QueryController.search
     |> Enum.map(fn (x) -> ScraperController.scrape_page(x) end )
   end
