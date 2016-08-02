@@ -1,12 +1,12 @@
 defmodule DelphiSpider do
   import Ecto.Query
 
-  def unleash_the_kraken do
-    spawn(combined_method)
-  end
-
-  def combined_method
-  end
+  # def unleash_the_kraken do
+  #   spawn(combined_method)
+  # end
+  #
+  # def combined_method
+  # end
 
   def fill_the_data_table do
     QueryController.search
