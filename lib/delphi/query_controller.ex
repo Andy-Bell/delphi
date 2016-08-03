@@ -1,7 +1,7 @@
-defmodule Delphi.Url do
+defmodule QueryController do
   import Ecto.Query
 
-  def list do
+  def search do
     query = from u in "url_test",
     select: u.url
     Delphi.Repo.all(query)

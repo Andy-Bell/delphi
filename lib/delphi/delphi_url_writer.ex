@@ -1,4 +1,4 @@
-defmodule Delphi.UrlTable do
+defmodule Delphi.UrlWriter do
   use Ecto.Model
   import Ecto.Changeset
 

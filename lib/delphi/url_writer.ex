@@ -1,66 +1,68 @@
 defmodule UrlWriter do
-  import ScraperController
 
-  def add_url_to_table(url) do
+  import Ecto.Query
+  import Ecto.Changeset
+  import Delphi.Repo
+  import QueryController
+
+  # def each([], _fun), do: []
+  # def each([head | tail], fun) do
+  #   fun.(head)
+  #   each(tail, fun)
+  # end
+  #
+  # def spider do
+  #   each(QueryController.search, &write_url(&1))
+  # end
+
+  def write_url(url) do
     UrlScraper.search_urls(url)
-    |> Enum.map( &limit_node_depth_to_one(&1) )
+    |> Enum.map( &node_depth_one(&1) )
     |> Enum.uniq
-    |> Enum.each( &write(&1) )
-    add_url_root_to_table(url)
-    scrape_page(url)
-    exit_function
+    |> Enum.each( &url_list(&1) )
+    write_root(url)
+    ScraperController.scrape_page(url)
+    fn x -> [] end
   end
 
-  defp exit_function do
-    IO.puts "Exited function"
-  end
-
-  defp add_url_root_to_table(url) do
+  defp write_root(url) do
     UrlScraper.search_urls(url)
-    |> Enum.map( &get_url_root_node(&1) )
+    |> Enum.map( &node_depth_root(&1) )
     |> Enum.uniq
-    |> Enum.each( &write(&1) )
+    |> Enum.each( &url_list(&1) )
   end
 
-  defp write(url) do
-    %Delphi.UrlTable{url: url}
+  defp url_list(data) do
+    %Delphi.UrlWriter{url: data}
     |> clause_match
   end
 
-  defp clause_match(url) do
-    changeset = Delphi.UrlTable.changeset(url)
+  defp clause_match(data1) do
+    changeset = Delphi.UrlWriter.changeset(data1)
     case Delphi.Repo.insert(changeset) do
       {:ok, _} -> IO.puts("it worked")
       {:error, _} -> IO.puts("failed, possibly unique index...")
     end
   end
 
-  defp limit_node_depth_to_one(url) do
-    cond do
-      !is_nil(url) && exact_url_root_node_match(url) -> extract_url_root(url)
-      true -> extract_first_node(url)
+  defp node_depth_one(data) do
+    if data do
+      if Regex.match?(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, data) do
+          Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, data, [])
+          |> List.first
+      else
+        node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
+        unless(node == nil) do List.first(node) end
+      end
     end
   end
 
-  defp get_url_root_node(url) do
-    if url do
-      node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)/, url, [])
+  defp node_depth_root(data) do
+    if data do
+      node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)/, data, [])
       unless(node == nil) do List.first(node) end
     end
   end
 
-  defp exact_url_root_node_match(url) do
-    Regex.match?(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, url)
-  end
-
-  defp extract_url_root(url) do
-    Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, url, [])
-    |> List.first
-  end
-
-  defp extract_first_node(url) do
-    node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, url, [])
-    unless(node == nil) do List.first(node) end
-  end
 
 end

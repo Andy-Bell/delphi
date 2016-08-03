@@ -22,31 +22,27 @@ defmodule UrlScraper do
 
   defp filter_urls(data, url) do
     Stream.uniq(data)
-    |> Enum.filter(&match_partial_url(&1))
-    |> Enum.partition(&match_full_url(&1))
-    |> concatenate_urls(url)
-    |> Enum.map( &check_node_depth(&1) )
+    |> Enum.filter(&partial_url(&1))
+    |> Enum.partition(&full_url(&1))
+    |> create_urls(url)
+    |> Enum.map( &node_depth(&1) )
   end
 
-  defp check_node_depth(url) do
-    node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, url, [])
+  defp node_depth(data) do
+    node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
     unless(node == nil) do List.first(node) end
   end
 
-  defp match_partial_url(url) do
-    Regex.match?(~r/\//, url)
+  defp partial_url(data) do
+    Regex.match?(~r/\//, data)
   end
 
-  defp match_full_url(url) do
-    Regex.match?(~r/https?:\/\/.+/, url)
+  defp full_url(data) do
+    Regex.match?(~r/https?:\/\/.+/, data)
   end
 
-  defp concatenate_urls({full_url, partial_url}, page_url) do
-    Enum.map(partial_url, &complete_partial_urls(&1, page_url)) 
-    ++ Enum.map(full_url, fn(full_url) -> full_url end)
+  defp create_urls({a, b}, url) do
+    Enum.map(b, fn(b) -> url <> b end) ++ Enum.map(a, fn(a) -> a end)
   end
 
-  defp complete_partial_urls(partial_url, page_url) do
-    page_url <> partial_url
-  end
 end
