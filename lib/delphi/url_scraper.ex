@@ -1,5 +1,9 @@
 defmodule UrlScraper do
 
+  @fixed_node_depth ~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/ 
+  @match_partial_url ~r/\// 
+  @match_full_url ~r/https?:\/\/.+/
+
   def search_urls(url) do
     HTTPoison.start
     (HTTPoison.get! url, [], hackney: [:insecure]).body
@@ -29,16 +33,16 @@ defmodule UrlScraper do
   end
 
   defp node_depth(data) do
-    node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
+    node = Regex.run(@fixed_node_depth, data, [])
     unless(node == nil) do List.first(node) end
   end
 
   defp partial_url(data) do
-    Regex.match?(~r/\//, data)
+    Regex.match?(@match_partial_url, data)
   end
 
   defp full_url(data) do
-    Regex.match?(~r/https?:\/\/.+/, data)
+    Regex.match?(@match_full_url, data)
   end
 
   defp create_urls({a, b}, url) do
