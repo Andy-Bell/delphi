@@ -2,14 +2,23 @@ defmodule UrlWriter do
 
   import Ecto.Query
   import Ecto.Changeset
+  import Delphi.Repo
+  import QueryController
 
   def write_url(url) do
     UrlScraper.search_urls(url)
-    |> Enum.map( &node_depth(&1) )
+    |> Enum.map( &node_depth_one(&1) )
     |> Enum.uniq
     |> Enum.each( &url_list(&1) )
-    url_list(url)
-    UrlScraper.search_urls(url) ++ [url]
+    write_root(url)
+    QueryController.search
+  end
+
+  defp write_root(url) do
+    UrlScraper.search_urls(url)
+    |> Enum.map( &node_depth_root(&1) )
+    |> Enum.uniq
+    |> Enum.each( &url_list(&1) )
   end
 
   defp url_list(data) do
@@ -25,7 +34,7 @@ defmodule UrlWriter do
     end
   end
 
-  defp node_depth(data) do
+  defp node_depth_one(data) do
     if data do
       if Regex.match?(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, data) do
           Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)$/, data, [])
@@ -34,6 +43,13 @@ defmodule UrlWriter do
         node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)(\/\w+)/, data, [])
         unless(node == nil) do List.first(node) end
       end
+    end
+  end
+
+  defp node_depth_root(data) do
+    if data do
+      node = Regex.run(~r/(http[s]?|ftp):\/?\/?([^:\/\s]+)/, data, [])
+      unless(node == nil) do List.first(node) end
     end
   end
 
