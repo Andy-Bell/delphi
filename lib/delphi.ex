@@ -1,24 +1,16 @@
 defmodule Delphi do
-  alias Delphi.Database
-  alias RethinkDB.Query
 
   use Application
 
   def start(_type, _args) do
-    Delphi.Supervisor.start_link
-  end
+    import Supervisor.Spec, warn: false
 
-  def database_insert(conn, params) do
-    q = Query.table("test")
-    |> Query.insert(params)
-    |> Database.run(conn)
+    children = [
+      worker(Delphi.Repo, []),
+    ]
 
-  end
-
-  def database_view(conn) do
-    q = Query.table("test")
-    |> Database.run(conn)
+    opts = [strategy: :one_for_one, name: Delphi.Supervisor]
+    Supervisor.start_link(children, opts)
 
   end
-
 end
