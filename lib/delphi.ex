@@ -11,6 +11,6 @@ defmodule Delphi do
 
     opts = [strategy: :one_for_one, name: Delphi.Supervisor]
     Supervisor.start_link(children, opts)
-    
+
   end
 end

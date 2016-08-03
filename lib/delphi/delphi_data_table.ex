@@ -1,4 +1,4 @@
-defmodule Delphi.DataWriter do
+defmodule Delphi.DataTable do
   use Ecto.Model
   import Ecto.Changeset
 
