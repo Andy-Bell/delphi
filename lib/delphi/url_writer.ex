@@ -5,13 +5,24 @@ defmodule UrlWriter do
   import Delphi.Repo
   import QueryController
 
+  # def each([], _fun), do: []
+  # def each([head | tail], fun) do
+  #   fun.(head)
+  #   each(tail, fun)
+  # end
+  #
+  # def spider do
+  #   each(QueryController.search, &write_url(&1))
+  # end
+
   def write_url(url) do
     UrlScraper.search_urls(url)
     |> Enum.map( &node_depth_one(&1) )
     |> Enum.uniq
     |> Enum.each( &url_list(&1) )
     write_root(url)
-    QueryController.search
+    ScraperController.scrape_page(url)
+    fn x -> [] end
   end
 
   defp write_root(url) do

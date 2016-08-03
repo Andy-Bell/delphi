@@ -12,10 +12,8 @@ defmodule Delphi.DataWriter do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:url, :title, :description])
+    |> cast(params, [:url])
     |> unique_constraint(:url)
-    |> unique_constraint(:title)
-    |> unique_constraint(:description)
   end
 
 end

@@ -17,7 +17,7 @@ defmodule ScraperController do
   defp clause_match(data1) do
     changeset = Delphi.DataWriter.changeset(data1)
     case Delphi.Repo.insert(changeset) do
-      {:ok, _} -> IO.puts("it worked")
+      {:ok, _} -> IO.puts("======================it worked======================")
       {:error, _} -> IO.puts("failed, possibly unique index...")
     end
   end
