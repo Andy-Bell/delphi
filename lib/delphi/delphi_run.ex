@@ -7,7 +7,8 @@ defmodule DelphiRun do
   defp spider_spawn_config do
     me = self
     Delphi.Url.list
-    |> Enum.map(fn (x) -> spawn(fn -> send me, {self, UrlTable.write_url(x)} end ) end)
+    |> Enum.map(fn (x) ->
+      spawn(fn -> send me, {self, UrlWriter.add_url_to_table(x)} end ) end)
     |> Enum.map(fn (pid) ->
       IO.inspect(pid)
       receive do

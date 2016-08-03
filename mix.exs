@@ -5,6 +5,7 @@ defmodule Delphi.Mixfile do
     [app: :delphi,
      version: "0.1.0",
      elixir: "~> 1.3",
+     preferred_cli_env: [espec: :test],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -29,6 +30,7 @@ defmodule Delphi.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:espec, "~> 0.8.28", only: :test},
       {:postgrex, "~> 0.9.1"},
       {:ecto, "~>1.0.0"},
       {:scrape, "~> 1.2"},
