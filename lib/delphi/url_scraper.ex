@@ -42,7 +42,7 @@ defmodule UrlScraper do
   end
 
   defp concatenate_urls({full_url, partial_url}, page_url) do
-    Enum.map(partial_url, &complete_partial_urls(&1, page_url)) 
+    Enum.map(partial_url, &complete_partial_urls(&1, page_url))
     ++ Enum.map(full_url, fn(full_url) -> full_url end)
   end
 
