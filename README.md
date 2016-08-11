@@ -22,7 +22,7 @@ As well as Elixir, we also used:
  -  Phoenix Framework to build the query engine
  -  Ecto and Postgres to store the urls and the collected information
 
-![Pythia&Delphi](web/static/assets/images/pythia&delphi.png)
+![Pythia&Delphi](images/pythia&delphi.png)
 
 - Video to project presentation (coming soon)
 - [Link to project presentation](https://docs.google.com/presentation/d/10LDF3dIhCKR54XAlErlkmO9t6Vwak3I8doAshWGfozQ/edit#slide=id.g158daf373d_0_41)
@@ -83,7 +83,7 @@ Pythia handles the user queries, and returning relevant results to the user. It 
 - Accessing the database which stores the scraped information from the urls, and return all the relevant links and information stored.
 - Ranking the results based on a simple algorithm which involves checking whether the keyword is included in the url, title and/or the description.
 
-![Pythia&Delphi](web/static/assets/images/Pythia search bar.png)
+![Pythia&Delphi](images/Pythia search bar.png)
 
 #### Next steps:
 Improving spider efficiency and limitation , and the search algorithm
